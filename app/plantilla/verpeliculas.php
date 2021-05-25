@@ -1,3 +1,4 @@
+  
 <?php
 include_once 'app/Pelicula.php';
 // Guardo la salida en un buffer(en memoria)
@@ -39,7 +40,7 @@ $auto = $_SERVER['PHP_SELF'];
 <td><?= $peli->director ?></td>
 <td><?= $peli->genero ?></td>
 <td>
-<a href="#" onclick="confirmarBorrar('<?= $peli->nombre,$peli->codigo_pelicula ?>')'">Borrar</a><br>
+<a href="#"	onclick="confirmarBorrar('<?= $peli->nombre."','".$peli->codigo_pelicula."'"?>);">Borrar</a><br>
 <a href="<?= $auto?>?orden=Modificar&codigo=<?=$peli->codigo_pelicula?>">Modificar</a><br>
 <a href="<?= $auto?>?orden=Detalles&codigo=<?= $peli->codigo_pelicula?>">Detalles</a><br>
 </td>

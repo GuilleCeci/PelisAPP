@@ -25,7 +25,12 @@ function ctlPeliAlta (){
 }
 
 
+function ctlPeliBorrar(){
+    $codigo_peli = $_GET['codigo'];
+    $peli = ModeloUserDB::Delete($codigo_peli);
+    include_once 'plantilla/verpeliculas.php';
 
+}
 
 function ctlPeliDetalles (){
     $codigo_peli = $_GET['codigo'];

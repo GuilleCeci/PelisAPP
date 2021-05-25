@@ -11,10 +11,9 @@ class ModeloUserDB {
     private static $buscar_genero = "Select * from peliculas where genero = ?";
     private static $buscar_director = "Select * from peliculas where director = ?";
     private static $buscar_titulo = "Select * from peliculas where nombre = ?";
-    private static $insert_peli   = "Insert into peliculas (nombre,director,genero,imagen)". "VALUES (?,?,?,?)";
-
-  /*
-     private static $delete_peli   = "Delete from Usuarios where id = ?"; 
+    private static $insert_peli   = "Insert into peliculas (nombre,director,genero,imagen,trailer)". "VALUES (?,?,?,?)";
+    private static $delete_peli   = "Delete from peliculas where codigo_pelicula = ?"; 
+     /*
      private static $insert_user   = "Insert into Usuarios (id,clave,nombre,email,plan,estado)".
                                      " VALUES (?,?,?,?,?,?)";
      private static $update_user    = "UPDATE Usuarios set  clave=?, nombre =?, ".
@@ -47,13 +46,21 @@ public static function insert($peli):bool{
     $stmt->bindValue(2,$peli->director);
     $stmt->bindValue(3,$peli->genero);
     $stmt->bindValue(4,$peli->imagen );
+  //  $stmt->bindValue(5,$peli->trailer );
     if ($stmt->execute()){
        return true;
     }
     return false; 
 }
 
-
+public static function Delete ($codigo){
+    $stmt = self::$dbh->prepare(self::$delete_peli);
+    $stmt->bindValue(1,$codigo);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
+    $peli = $stmt->fetch();
+    return $peliculas;   
+}
 
 // Tabla de objetos con todas las peliculas
 public static function GetAll ():array{
@@ -80,13 +87,22 @@ public static function GetOne ($codigo){
     return $peli;   
 }
 
+/*public static function Delete ($codigo){
+    $stmt = self::$dbh->prepare(self::$delete_peli);
+    $stmt->bindValue(1,$codigo);
+    $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
+    $peli = $stmt->fetch();
+    return $peli;   
+}*/
+
 public static function GetGenero ($genero){
     $stmt = self::$dbh->prepare(self::$buscar_genero);
     $stmt->bindValue(1,$genero);
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
     $peli = $stmt->fetch();
-    return $peli;   
+    return $peliculas;   
 }
 
 public static function GetDirector ($director){
@@ -95,7 +111,7 @@ public static function GetDirector ($director){
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
     $peli = $stmt->fetch();
-    return $peli; 
+    return $peliculas; 
 }
 
 public static function GetTitulo ($titulo){
@@ -104,7 +120,7 @@ public static function GetTitulo ($titulo){
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
     $peli = $stmt->fetch();
-    return $peli; // Devuele una pelicula o false    
+    return $peliculas; // Devuele una pelicula o false    
 }
 
 public static function closeDB(){

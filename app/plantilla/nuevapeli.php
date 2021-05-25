@@ -12,7 +12,7 @@ ob_start();
 <tr><td>Titulo:   </td><td><input name="nombre" type="text"></td></tr>
 <tr><td>Director:  </td><td><input name="director" type="text"></td></tr>
 <tr><td>Genero:    </td><td><input name="genero" type="text"></td></tr>
-<!--<tr><td>Trailer:    </td><td><input name="trailer" type="text"></td></tr> -->
+<tr><td>Trailer:    </td><td><input name="trailer" type="text"></td></tr>
 <tr><td>Cartel:   </td><td><input name="imagen" type="file"></td></tr>
 
 </table><br>
