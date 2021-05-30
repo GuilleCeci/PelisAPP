@@ -8,7 +8,7 @@ class Pelicula
    private $director;
    private $genero;
    private $imagen;
-  // private $trailer;
+   private $trailer;
    
    
    // Getter con método mágico

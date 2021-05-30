@@ -14,6 +14,7 @@ function ctlPeliAlta (){
         $peli->nombre   = $_POST['nombre'];
         $peli->director = $_POST['director'];
         $peli->genero   = $_POST['genero'];
+        $peli->trailer   = $_POST['trailer'];
         if ( isset($_FILES['imagen']['name']) ) {        
             $peli->imagen = $_FILES['imagen']['name'];            
         } else {
@@ -46,6 +47,15 @@ function ctlPeliCerrar(){
     header('Location:index.php');
 }
 
+function ctlPeliValorar(){
+    $valoracionfinal = ($_POST['valoracion'] + $valoracion)/2;
+    if  ($_SERVER['REQUEST_METHOD'] == 'GET'){
+        include_once 'plantilla/valorarPelicula.php';
+    } else {
+        $peli->valorar   = $valoracionfinal;
+        ModeloUserDB::Valorar($codigo_peli);
+  }
+}
 
 function ctlPeliVerPelis (){
     $peliculas = ModeloUserDB::GetAll(); 
