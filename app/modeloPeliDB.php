@@ -15,6 +15,7 @@ class ModeloUserDB {
     private static $update_valoracion = "Update peliculas SET valoracion = ? WHERE codigo_pelicula = ? ";
     private static $insert_peli   = "Insert into peliculas (nombre,director,genero,imagen,trailer)". "VALUES (?,?,?,?,?)";
     private static $delete_peli   = "Delete from peliculas where codigo_pelicula = ?"; 
+    private static $modificar_peli = "Select * from peliculas where codigo_pelicula = ? AND Update peliculas SET (nombre,director,genero,imagen,trailer)". "VALUES (?,?,?,?,?,?)";
 
   /*   private static $insert_user   = "Insert into Usuarios (id,clave,nombre,email,plan,estado)".
                                      " VALUES (?,?,?,?,?,?)";
@@ -52,21 +53,30 @@ public static function insert($peli):bool{
     }
     return false; 
 }
-
-public static function Delete (String $codigo):bool {
-    $stmt = self::$dbh->query("Delete from peliculas where codigo_pelicula = ?");
-    $tpelis = [];
+public static function mod($codigo):bool{
+    $stmt = self::$dbh->prepare(self::$modificar_peli);
+    $stmt->bindValue(1,$peli->codigo);
+    $stmt->bindValue(2,$peli->nombre);
+    $stmt->bindValue(3,$peli->director);
+    $stmt->bindValue(4,$peli->genero);
+    $stmt->bindValue(5,$peli->imagen );
+    $stmt->bindValue(6,$peli->trailer );
+    $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
-    while ( $peli = $stmt->fetch()){
-        $tpelis[] = $peli;       
-    }
-    return $tpelis;
+    $peli = $stmt->fetch();
+    return $peli; 
+}
+
+public static function Delete (String $codigo) {
+    $stmt = self::$dbh->prepare(self::$delete_peli);
+    $stmt->bindValue(1,$codigo);
+    $stmt->execute();
+    return false;
 }   
 
 
 public static function GetAll ():array{    
     $stmt = self::$dbh->query("select * from peliculas");
-    
     $tpelis = [];
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
     while ( $peli = $stmt->fetch()){
@@ -96,8 +106,8 @@ public static function Valorar ($codigo){
 }
  
 public static function GetGenero ($genero){
-    $stmt = self::$dbh->prepare(self::$buscar_genero);
-    $stmt->bindValue(1,$codigo);
+    $stmt = self::$dbh->query("select * from peliculas where genero like = ?");
+    $stmt->bindValue(1,$genero."%");
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
     while ( $peli = $stmt->fetch()){
@@ -106,9 +116,9 @@ public static function GetGenero ($genero){
     return $tpelis;  
 }
 
-public static function GetDirector ($director){
-    $stmt = self::$dbh->prepare(self::$buscar_director);
-    $stmt->bindValue(1,$codigo);
+public static function GetDirector ($director){ 
+    $stmt = self::$dbh->query("select * from peliculas where director like = ?");
+    $stmt->bindValue(1,$director."%");
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
     while ( $peli = $stmt->fetch()){
@@ -118,7 +128,8 @@ public static function GetDirector ($director){
 }
 
 public static function GetTitulo ($titulo){
-    $stmt = self::$dbh->query("Select * from peliculas where nombre = ?");    
+    $stmt = self::$dbh->query("select * from peliculas where nombre like = ?");
+    $stmt->bindValue(1,$titulo."%" );    
     $tpelis = [];
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Pelicula');
     while ( $peli = $stmt->fetch()){

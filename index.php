@@ -17,13 +17,14 @@ $rutasPelis = [
     "Inicio"      => "ctlPeliInicio",
     "Alta"        => "ctlPeliAlta",
     "Detalles"    => "ctlPeliDetalles",
+    "Modificar"   => "ctlPeliModificar",
     "Valorar"   => "ctlPeliValorar",
     "Borrar"      => "ctlPeliBorrar",
     "Cerrar"      => "ctlPeliCerrar",
     "VerPelis"    => "ctlPeliVerPelis",
     "Genero" => "ctlBuscarGenero",
     "Director" => "ctlBuscarDirector",
-    "Titulo" => "ctlBuscarTitulo"
+    "Titulo" => "ctlBuscarTitulo",
 ];
 
 

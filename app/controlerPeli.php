@@ -15,7 +15,7 @@ function ctlPeliAlta (){
         $peli->director = $_POST['director'];
         $peli->genero   = $_POST['genero'];
         $peli->trailer   = $_POST['trailer'];
-        if ( isset($_FILES['imagen']['name']) ) {        
+        if ( isset($_FILES['imagen']['name']) ) {            
             $peli->imagen = $_FILES['imagen']['name'];            
         } else {
             $peli->imagen = NULL;
@@ -27,10 +27,10 @@ function ctlPeliAlta (){
 
 
 function ctlPeliBorrar(){
-    $codigo_peli = $_GET['codigo'];
-    $peli = ModeloUserDB::Delete($codigo_peli);
-    include_once 'plantilla/verpeliculas.php';
-
+    $codigo_peli = $_GET['userid'];
+  
+    $peliculas = ModeloUserDB::Delete($codigo_peli);
+    ctlPeliVerPelis ();
 }
 
 function ctlPeliDetalles (){
@@ -38,14 +38,25 @@ function ctlPeliDetalles (){
     $peli = ModeloUserDB::GetOne($codigo_peli); 
     include_once 'plantilla/detallesPeliculas.php';
 
+    str_replace("https://youtu.be/","https://www.youtube.com/embed/", $peli->trailer);
 }
-
 
 function ctlPeliCerrar(){
     session_destroy();
     modeloUserDB::closeDB();
     header('Location:index.php');
 }
+
+function ctlPeliModificar(){
+    $codigo_peli = $_GET['codigo'];
+    $peli = ModeloUserDB::GetOne($codigo_peli); 
+    include_once 'plantilla/modificarpeli.php';
+
+    str_replace("https://youtu.be/","https://www.youtube.com/embed/", $peli->trailer);
+}
+
+
+
 
 function ctlPeliValorar(){
     $valoracionfinal = ($_POST['valoracion'] + $valoracion)/2;
