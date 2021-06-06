@@ -10,7 +10,7 @@ ob_start();
 <tr><td>Director  </td><td>  <?= $peli->director ?></td></tr>
 <tr><td>Genero    </td><td>  <?= $peli->genero  ?></td></tr>
 <tr><td>Imagen   </td><td>   
-<img src="<?='app/img/'.$peli->imagen; ?>" height="380" width="240"></img></td></tr>
+<img src="<?='app/img/'.$peli->imagen ?>" height="380" width="240"></img></td></tr>
 <tr><td>Trailer    </td><td><iframe src="<? $peli->trailer ?>" frameborder="0"></iframe></td></tr>
 
 </table>
